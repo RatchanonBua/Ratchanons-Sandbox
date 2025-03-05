@@ -27,6 +27,8 @@ frontend/dist/
 frontend/.env*
 frontend/.cache/
 frontend/.output/
+.next/
+next-env.d.ts
 
 # **Database (MongoDB, Firebase)**
 database/mongo-data/
