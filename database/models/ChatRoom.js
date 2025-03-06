@@ -51,7 +51,7 @@ const ChatRoomSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  deleteAt: {
+  deletedAt: {
     type: Date,
     default: null,
   },
