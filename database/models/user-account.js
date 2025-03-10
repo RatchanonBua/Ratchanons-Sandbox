@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const userAccountSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -17,9 +17,44 @@ const userSchema = new mongoose.Schema({
     unique: true,
     match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Regex for email validation
   },
+  profileImage: {
+    type: String,
+    default: null,
+  },
   displayName: {
     type: String,
     required: true,
+  },
+  isIndividual: {
+    type: Boolean,
+    default: true,
+  },
+  accountInfo: {
+    firstName: {
+      type: String,
+      default: null,
+      required: function () {
+        return this.isIndividual;
+      },
+    },
+    middleName: {
+      type: String,
+      default: null,
+    },
+    lastName: {
+      type: String,
+      default: null,
+      required: function () {
+        return this.isIndividual;
+      },
+    },
+    accountName: {
+      type: String,
+      default: null,
+      required: function () {
+        return !this.isIndividual;
+      },
+    },
   },
   lastLoginAt: {
     type: Date,
@@ -37,12 +72,6 @@ const userSchema = new mongoose.Schema({
       sparse: true,
       default: null,
     },
-    facebookId: {
-      type: String,
-      unique: true,
-      sparse: true,
-      default: null,
-    },
     googleId: {
       type: String,
       unique: true,
@@ -54,15 +83,24 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  deletedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
   deletedAt: {
     type: Date,
     default: null,
   },
 }, {
   timestamps: true,
+}, {
+  collection: 'user_accounts',
 });
 
+userSchema.index({ username: 1 });
+userSchema.index({ email: 1 });
 userSchema.index({ accountStatus: 1, lastLoginAt: -1 });
 
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const UserAccount = mongoose.model('UserAccount', userAccountSchema);
+module.exports = UserAccount;

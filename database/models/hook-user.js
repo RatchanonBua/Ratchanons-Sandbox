@@ -27,7 +27,7 @@ const hookUserSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  userStatus: {
+  accountStatus: {
     type: String,
     enum: ['active', 'inactive', 'banned'],
     default: 'active',
