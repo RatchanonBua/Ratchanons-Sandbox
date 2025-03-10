@@ -94,13 +94,9 @@ const userAccountSchema = new mongoose.Schema({
   },
 }, {
   timestamps: true,
-}, {
-  collection: 'user_accounts',
 });
 
-userSchema.index({ username: 1 });
-userSchema.index({ email: 1 });
-userSchema.index({ accountStatus: 1, lastLoginAt: -1 });
+userAccountSchema.index({ accountStatus: 1, lastLoginAt: -1 });
 
-const UserAccount = mongoose.model('UserAccount', userAccountSchema);
+const UserAccount = mongoose.model('UserAccount', userAccountSchema, 'user_accounts');
 module.exports = UserAccount;

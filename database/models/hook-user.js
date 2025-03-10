@@ -68,11 +68,9 @@ const hookUserSchema = new mongoose.Schema({
   },
 }, {
   timestamps: true,
-}, {
-  collection: 'hook_users',
 });
 
 hookUserSchema.index({ hookOrigin: 1, externalUserId: 1 }, { unique: true });
 
-const HookUser = mongoose.model('HookUser', hookUserSchema);
+const HookUser = mongoose.model('HookUser', hookUserSchema, 'hook_users');
 module.exports = HookUser;

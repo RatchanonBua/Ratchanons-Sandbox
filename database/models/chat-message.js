@@ -66,5 +66,5 @@ const chatMessageSchema = new mongoose.Schema({
 
 chatMessageSchema.index({ userId: 1, chatRoomId: 1, isDeleted: 1 });
 
-const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema);
+const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema, 'chat_messages');
 module.exports = ChatMessage;

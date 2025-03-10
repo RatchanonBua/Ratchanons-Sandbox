@@ -62,9 +62,7 @@ const hookMessageSchema = new mongoose.Schema({
   },
 }, {
   timestamps: true,
-}, {
-  collection: 'hook_messages',
 });
 
-const HookMessage = mongoose.model('HookMessage', hookMessageSchema);
+const HookMessage = mongoose.model('HookMessage', hookMessageSchema, 'hook_messages');
 module.exports = HookMessage;
