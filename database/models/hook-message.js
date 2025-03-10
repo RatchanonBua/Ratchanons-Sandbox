@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const HookMessageSchema = new mongoose.Schema({
+const hookMessageSchema = new mongoose.Schema({
   hookUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'HookUser',
@@ -33,7 +33,7 @@ const HookMessageSchema = new mongoose.Schema({
   },
   messageStatus: {
     type: String,
-    enum: ['pending', 'success', 'failed'],
+    enum: ['draft', 'pending', 'success', 'failed'],
     default: 'pending',
   },
   messageDirection: {
@@ -51,13 +51,20 @@ const HookMessageSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  deletedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
   deletedAt: {
     type: Date,
     default: null,
   },
 }, {
   timestamps: true,
+}, {
+  collection: 'hook_messages',
 });
 
-const HookMessage = mongoose.model('HookMessage', HookMessageSchema);
+const HookMessage = mongoose.model('HookMessage', hookMessageSchema);
 module.exports = HookMessage;

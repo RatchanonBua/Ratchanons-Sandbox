@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ChatMessageSchema = new mongoose.Schema({
+const chatMessageSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -9,7 +9,7 @@ const ChatMessageSchema = new mongoose.Schema({
   chatRoomId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ChatRoom',
-    default: null,
+    required: true,
   },
   messageType: {
     type: String,
@@ -32,19 +32,39 @@ const ChatMessageSchema = new mongoose.Schema({
     enum: ['sent', 'delivered', 'read', 'failed'],
     default: 'sent',
   },
+  seenBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: [],
+  }],
+  replyTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ChatMessage',
+    default: null,
+  },
   isDeleted: {
     type: Boolean,
     default: false,
   },
+  deletedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
   deletedAt: {
     type: Date,
     default: null,
+    required: function () {
+      return this.isDeleted;
+    },
   },
 }, {
   timestamps: true,
+}, {
+  collection: 'chat_messages',
 });
 
-ChatMessageSchema.index({ userId: 1, chatRoomId: 1, isDeleted: 1 });
+chatMessageSchema.index({ userId: 1, chatRoomId: 1, isDeleted: 1 });
 
-const ChatMessage = mongoose.model('ChatMessage', ChatMessageSchema);
+const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema);
 module.exports = ChatMessage;

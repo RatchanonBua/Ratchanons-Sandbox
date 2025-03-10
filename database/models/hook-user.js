@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const HookUserSchema = new mongoose.Schema({
+const hookUserSchema = new mongoose.Schema({
   hookOrigin: {
     type: String,
     enum: ['line', 'facebook', 'google'],
@@ -9,6 +9,11 @@ const HookUserSchema = new mongoose.Schema({
   externalUserId: {
     type: String,
     required: true,
+  },
+  linkUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
   },
   profileImage: {
     type: String,
@@ -21,6 +26,11 @@ const HookUserSchema = new mongoose.Schema({
   customName: {
     type: String,
     default: null,
+  },
+  userStatus: {
+    type: String,
+    enum: ['active', 'inactive', 'banned'],
+    default: 'active',
   },
   lastMessage: {
     type: String,
@@ -47,13 +57,22 @@ const HookUserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  deletedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
   deletedAt: {
     type: Date,
     default: null,
   },
 }, {
   timestamps: true,
+}, {
+  collection: 'hook_users',
 });
 
-const HookUser = mongoose.model('HookUser', HookUserSchema);
+hookUserSchema.index({ hookOrigin: 1, externalUserId: 1 }, { unique: true });
+
+const HookUser = mongoose.model('HookUser', hookUserSchema);
 module.exports = HookUser;

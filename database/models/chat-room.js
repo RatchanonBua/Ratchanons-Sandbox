@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ChatRoomSchema = new mongoose.Schema({
+const chatRoomSchema = new mongoose.Schema({
   roomType: {
     type: String,
     enum: ['private', 'group'],
@@ -47,9 +47,23 @@ const ChatRoomSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  archivedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  archivedAt: {
+    type: Date,
+    default: null,
+  },
   isDeleted: {
     type: Boolean,
     default: false,
+  },
+  deletedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
   },
   deletedAt: {
     type: Date,
@@ -57,7 +71,11 @@ const ChatRoomSchema = new mongoose.Schema({
   },
 }, {
   timestamps: true,
+}, {
+  collection: 'chat_rooms',
 });
 
-const ChatRoom = mongoose.model('ChatRoom', ChatRoomSchema);
+chatRoomSchema.index({ 'participants.userId': 1 });
+
+const ChatRoom = mongoose.model('ChatRoom', chatRoomSchema);
 module.exports = ChatRoom;
