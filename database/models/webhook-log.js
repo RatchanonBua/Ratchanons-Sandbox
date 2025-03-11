@@ -14,7 +14,7 @@ const webhookLogSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
-  createdAt: {
+  receivedAt: {
     type: Date,
     default: Date.now,
   },

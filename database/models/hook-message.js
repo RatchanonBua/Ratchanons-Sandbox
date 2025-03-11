@@ -13,7 +13,7 @@ const hookMessageSchema = new mongoose.Schema({
   },
   messageType: {
     type: String,
-    enum: ['text', 'image', 'video', 'audio', 'file'],
+    enum: ['text', 'image', 'video', 'audio', 'file', 'sticker'],
     required: true,
     default: 'text',
   },
@@ -28,7 +28,7 @@ const hookMessageSchema = new mongoose.Schema({
     type: String,
     default: null,
     required: function () {
-      return ['image', 'video', 'audio', 'file'].includes(this.messageType);
+      return ['image', 'video', 'audio', 'file', 'sticker'].includes(this.messageType);
     },
   },
   messageStatus: {
