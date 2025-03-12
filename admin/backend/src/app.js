@@ -7,15 +7,15 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Database
-const { connectDatabase } = require('./core/database');
+const { connectDatabase } = require('@/core/database');
 connectDatabase();
 
 // Route Section
-const { webhookRoutes } = require('./modules/webhook/index');
+const { webhookRoutes } = require('@/modules/webhooks/index');
+app.use(webhookRoutes);
 
 // Use Section
 app.use(express.json());
-app.use(webhookRoutes);
 
 // Error Handling
 app.use((req, res, next) => {

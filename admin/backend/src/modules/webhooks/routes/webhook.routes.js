@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const webhookController = require('../controllers/webhook.controller');
+const { handleLineWebhook } = require('@/modules/webhooks/controllers/webhook.controller');
 
 const validateJsonContent = (req, res, next) => {
   if (req.is('application/json')) {
@@ -10,7 +10,6 @@ const validateJsonContent = (req, res, next) => {
   }
 };
 
-router.get('/api/v1/webhooks', (req, res) => { res.send('Hello Webhook!'); });
-router.post('/api/v1/webhooks', validateJsonContent, ...webhookController);
+router.post('/webhooks/line', validateJsonContent, handleLineWebhook);
 
 module.exports = router;
