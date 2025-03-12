@@ -32,4 +32,4 @@ const webhookLogSchema = new mongoose.Schema({
 webhookLogSchema.index({ event: 1, timestamp: -1 });
 
 const WebhookLog = mongoose.model('WebhookLog', webhookLogSchema, 'webhook_logs');
-module.exports = { WebhookLog };
+module.exports = WebhookLog;

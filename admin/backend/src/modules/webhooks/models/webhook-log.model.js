@@ -1,4 +1,4 @@
-const { WebhookLog: WebhookLogModel } = require('@/models/webhook-log');
+const WebhookLogModel = require('@/models/webhook-log');
 
 const createWebhookLog = async (webhookData) => {
   try {
