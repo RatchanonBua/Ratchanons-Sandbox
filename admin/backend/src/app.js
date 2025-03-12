@@ -10,12 +10,12 @@ const app = express();
 const { connectDatabase } = require('@/core/database');
 connectDatabase();
 
+// Use Section
+app.use(express.json());
+
 // Route Section
 const { webhookRoutes } = require('@/modules/webhooks/index');
 app.use(webhookRoutes);
-
-// Use Section
-app.use(express.json());
 
 // Error Handling
 app.use((req, res, next) => {

@@ -116,4 +116,4 @@ hookMessageSchema.index({ hookOrigin: 1, messageId: 1 }, { unique: true });
 hookMessageSchema.index({ quoteMessage: 1 });
 
 const HookMessage = mongoose.model('HookMessage', hookMessageSchema, 'hook_messages');
-module.exports = HookMessage;
+module.exports = { HookMessage };
