@@ -1,26 +1,36 @@
 const mongoose = require('mongoose');
 
 const webhookLogSchema = new mongoose.Schema({
-  source: {
-    type: String,
-    required: true,
-    default: 'unknown',
-  },
   event: {
     type: String,
     required: true,
+  },
+  requestUrl: {
+    type: String,
+    required: true,
+  },
+  method: {
+    type: String,
+    enum: ['GET', 'POST', 'PUT', 'DELETE'],
+    required: true,
+    default: 'POST',
+  },
+  referer: {
+    type: String,
+    required: true,
+    default: 'unknown',
   },
   payload: {
     type: Object,
     required: true,
   },
-  receivedAt: {
+  timestamp: {
     type: Date,
     default: Date.now,
   },
 });
 
-webhookLogSchema.index({ source: 1, event: 1 });
+webhookLogSchema.index({ event: 1, timestamp: -1 });
 
 const WebhookLog = mongoose.model('WebhookLog', webhookLogSchema, 'webhook_logs');
 module.exports = WebhookLog;
