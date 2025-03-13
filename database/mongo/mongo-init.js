@@ -58,7 +58,7 @@ async function connectWithNewUser() {
 }
 
 async function createCollections() {
-  const modelsPath = path.join(__dirname, '../models');
+  const modelsPath = path.join(__dirname, '../schemas');
   const files = fs.readdirSync(modelsPath);
 
   if (!files || files.length === 0) {

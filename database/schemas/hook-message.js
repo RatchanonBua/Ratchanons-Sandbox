@@ -1,13 +1,29 @@
 const mongoose = require('mongoose');
 
 const messageContextSchema = new mongoose.Schema({
-  keywords: {
-    type: [String],
-    default: [],
-  },
   quoteToken: {
     type: String,
     default: null,
+  },
+  quotedMessageId: {
+    type: String,
+    default: null,
+  },
+  stickerId: {
+    type: String,
+    default: null,
+  },
+  packageId: {
+    type: String,
+    default: null,
+  },
+  stickerType: {
+    type: String,
+    default: null,
+  },
+  keywords: {
+    type: [String],
+    default: [],
   },
   isRedelivery: {
     type: Boolean,
@@ -15,10 +31,6 @@ const messageContextSchema = new mongoose.Schema({
   },
   timestampSent: {
     type: Date,
-    default: null,
-  },
-  quotedMessageId: {
-    type: String,
     default: null,
   },
 }, { _id: false });
