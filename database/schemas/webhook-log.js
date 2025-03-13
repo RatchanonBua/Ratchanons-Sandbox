@@ -11,7 +11,6 @@ const webhookLogSchema = new mongoose.Schema({
   },
   method: {
     type: String,
-    enum: ['GET', 'POST', 'PUT', 'DELETE'],
     required: true,
     default: 'POST',
   },
