@@ -1,9 +1,5 @@
-// Require Section
-require('dotenv').config();
-
 // Import Section
 const express = require('express');
-const mongoose = require('mongoose');
 const app = express();
 
 // Database

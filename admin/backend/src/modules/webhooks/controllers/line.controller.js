@@ -1,3 +1,5 @@
+const { getLineProfile } = require('@/utils/line-api');
+
 // const hookMessageModel = require('@/modules/webhooks/models/hook-message.model');
 const hookUserModel = require('@/modules/webhooks/models/hook-user.model');
 
@@ -12,21 +14,26 @@ const processLineWebhook = async (payload) => {
         const replyToken = eventData.replyToken;
         const timestamp = eventData.timestamp;
         let hookUserId = "";
-        // LINE Profile
-        const displayName = 'Test User';
         // Search User for Create or Update
         const targetUser = {
           hookOrigin: 'line',
           externalOriginId: destination,
           externalUserId: externalUserId,
         };
-        let hookUserObj = await hookUserModel.fetchHookUser('one', targetUser, {}, '_id externalOriginId externalUserId');
+        let hookUserObj = await hookUserModel.fetchHookUser('one', targetUser, {}, '_id externalOriginId externalUserId displayName');
         // Build Data for Create or Update
+        const displayName = (hookUserObj) ? hookUserObj.displayName : 'ไม่ทราบชื่อ';
         const infoUser = {
           externalReplyToken: replyToken,
           displayName: displayName,
           lastActivityAt: (timestamp) ? new Date(timestamp) : new Date(),
         };
+        // LINE Profile
+        const profileData = await getLineProfile(externalUserId);
+        if (profileData) {
+          infoUser.profileImage = profileData.pictureUrl;
+          infoUser.displayName = profileData.displayName;
+        }
         // Check Search Result
         if (hookUserObj) {
           // Update Data
