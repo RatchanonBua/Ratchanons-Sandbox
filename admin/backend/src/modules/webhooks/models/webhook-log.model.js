@@ -1,9 +1,8 @@
-const WebhookLogModel = require('@/models/webhook-log');
+const WebhookLog = require('@/schemas/webhook-log');
 
-const createWebhookLog = async (webhookData) => {
+const createWebhookLog = async (objectData) => {
   try {
-    const webhookLog = new WebhookLogModel(webhookData);
-    await webhookLog.save();
+    const webhookLog = await WebhookLog.create(objectData);
     return webhookLog;
   } catch (error) {
     console.error('Error Creating Webhook Log:', error);
