@@ -1,4 +1,5 @@
 const lineController = require('@/modules/chats/controllers/line.controller');
+const hookUserModel = require('@/models/hook-user.model');
 const sanitizeHtml = require('sanitize-html');
 
 const getChatList = async (req, res, source) => {
@@ -15,7 +16,7 @@ const getChatList = async (req, res, source) => {
     // Build Queries
     queries = { name: name, date: date, sort: sort, accStatus: accStatus, isResponded: isResponded, page: page, limit: limit };
     queries = Object.fromEntries(Object.entries(queries).filter(([_, v]) => v != null));
-    console.log("Get Chat List:", queries);
+    console.log("Get Chat List:", JSON.stringify(queries));
     // Result of Chat List
     let result = [];
     switch (source) {
@@ -35,12 +36,24 @@ const getChatList = async (req, res, source) => {
 
 const getChatHistory = async (req, res, source) => {
   try {
-    // Get Chat History Id
+    // Process Request Body
+    const reqBody = req.body;
+    const userId = reqBody?.id;
+    if (!userId) {
+      return res.status(400).json({ success: false, message: 'Invalid Information!' });
+    }
     // Result of Chat History
     let result = [];
     switch (source) {
       case "LINE":
-        result = await lineController.fetchLineChatHistory(id);
+        const targetUser = { hookOrigin: 'line', _id: userId };
+        console.log(targetUser);
+        const hookUserObj = await hookUserModel.fetchHookUser('one', targetUser, {}, '_id') || null;
+        if (!hookUserObj) {
+          return res.status(404).json({ success: false, message: 'User Not Found!' });
+        }
+        const userObjectId = hookUserObj._id;
+        result = await lineController.fetchLineChatHistory(userObjectId);
         break;
       default:
         break;

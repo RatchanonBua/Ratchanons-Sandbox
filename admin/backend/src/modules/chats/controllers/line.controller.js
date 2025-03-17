@@ -38,13 +38,19 @@ const fetchLineChatList = async (queries) => {
   const sortObj = (sortStr === 'asc') ? { lastActivityAt: 1 } : { lastActivityAt: -1 };
   //---- Target Skip ----//
   const skip = (queries.page - 1) * queries.limit;
-  // Fetch User Data
-  result = await hookUserModel.fetchHookUser('all', conditions, sortObj, '', skip, queries.limit);
+  // Fetch Chat List
+  result = await hookUserModel.fetchHookUser('all', conditions, sortObj, '_id profileImage displayName customName lastMessage lastActivityAt isResponded', skip, queries.limit);
   return result;
 };
 
-const fetchLineChatHistory = async (id) => {
-
+const fetchLineChatHistory = async (userId) => {
+  // Initialize Variables
+  let result = [];
+  let conditions = { hookOrigin: 'line', hookUser: userId, isDeleted: false };
+  const sortObj = { "messageContext.timestampSent": -1 };
+  // Fetch Chat History
+  result = await hookMessageModel.fetchHookMessage('all', conditions, sortObj, '_id messageId quotedMessage messageType messageText mediaUrl messageStatus messageDirection messageContext');
+  return result;
 };
 
 module.exports = { fetchLineChatList, fetchLineChatHistory };

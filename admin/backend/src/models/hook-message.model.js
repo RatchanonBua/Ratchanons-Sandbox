@@ -11,7 +11,7 @@ const createHookMessage = async (objectData) => {
 };
 
 // mode = ['all', 'one', 'id']
-const fetchHookMessage = async (mode = 'all', condition = {}, sort = {}, field = '') => {
+const fetchHookMessage = async (mode = 'all', condition = {}, sort = {}, field = '', skip = null, limit = null) => {
   try {
     let query = HookMessage.find(condition);
     // Search Mode
@@ -27,6 +27,14 @@ const fetchHookMessage = async (mode = 'all', condition = {}, sort = {}, field =
     // Fields to Select
     if (typeof field === 'string' && field !== '') {
       query = query.select(field);
+    }
+    // Skip Search
+    if (Number.isInteger(skip) && skip >= 0) {
+      query = query.skip(skip);
+    }
+    // Limit Search
+    if (Number.isInteger(limit) && limit > 0) {
+      query = query.limit(limit);
     }
     // Search Operation
     const result = await query;
