@@ -1,4 +1,4 @@
-const webhookLogModel = require('@/modules/webhooks/models/webhook-log.model');
+const webhookLogModel = require('@/models/webhook-log.model');
 const lineController = require('@/modules/webhooks/controllers/line.controller');
 
 const handleWebhook = async (req, res, source) => {

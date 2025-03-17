@@ -1,7 +1,7 @@
 const { getLineProfile } = require('@/utils/line-api');
 
-const hookMessageModel = require('@/modules/webhooks/models/hook-message.model');
-const hookUserModel = require('@/modules/webhooks/models/hook-user.model');
+const hookMessageModel = require('@/models/hook-message.model');
+const hookUserModel = require('@/models/hook-user.model');
 
 const defaultInfoMessage = {
   messageStatus: 'success',
