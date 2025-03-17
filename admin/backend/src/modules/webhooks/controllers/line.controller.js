@@ -1,7 +1,7 @@
-const { getLineProfile } = require('@/utils/line-api');
+const { getLineProfile } = require('@/api/line');
 
-const hookMessageModel = require('@/models/hook-message.model');
 const hookUserModel = require('@/models/hook-user.model');
+const hookMessageModel = require('@/models/hook-message.model');
 
 const defaultInfoMessage = {
   messageStatus: 'success',

@@ -1,5 +1,7 @@
 // Import Section
 const express = require('express');
+const helmet = require('helmet');
+const sanitizeHtml = require('sanitize-html');
 const app = express();
 
 // Database
@@ -8,6 +10,8 @@ connectDatabase();
 
 // Use Section
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
 
 // Route Section
 const { webhookRoutes } = require('@/modules/webhooks/index');
