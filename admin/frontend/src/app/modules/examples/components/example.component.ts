@@ -3,10 +3,12 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 
 @Component({
-  selector: "app-root",
+  selector: "app-examples",
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: "app.component.html",
-  styleUrls: ["app.component.scss"],
+  templateUrl: "example.component.html",
+  styleUrls: ["example.component.scss"],
 })
-export class AppComponent {}
+export class ExampleComponent {
+  title = "frontend";
+}
