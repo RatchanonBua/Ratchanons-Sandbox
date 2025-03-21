@@ -1,6 +1,9 @@
 import { Routes } from "@angular/router";
-import { ChatComponent } from "@/modules/chats/components/chat.component";
+import { HookChatComponent } from "./components/hook-chat/hook-chat.component";
 
-const routes: Routes = [{ path: "", component: ChatComponent }];
+const routes: Routes = [
+  { path: "providers/:platform", component: HookChatComponent },
+  { path: "**", redirectTo: "providers/line", pathMatch: "full" },
+];
 
 export { routes };

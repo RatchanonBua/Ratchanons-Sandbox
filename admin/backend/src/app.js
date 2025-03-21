@@ -1,6 +1,7 @@
 // Import Section
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 const app = express();
 
 // Database
@@ -11,6 +12,7 @@ connectDatabase();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
+app.use(cors());
 
 // Route Section
 const { chatRoutes } = require('@/modules/chats/index');

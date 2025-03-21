@@ -1,9 +1,20 @@
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class ChatService {
-  getData(): Observable<string> {
-    return of("Chat Data");
+  private apiHost = "https://773gbzvx-3000.asse.devtunnels.ms";
+
+  constructor(private http: HttpClient) {}
+
+  getProviderChatList(platform: string): Observable<any[]> {
+    const url = this.apiHost + `/chats/${platform}/list`;
+    return this.http.get<any[]>(url);
+  }
+
+  getProviderChatHistory(platform: string, postData: Object): Observable<any[]> {
+    const url = this.apiHost + `/chats/${platform}/history`;
+    return this.http.post<any[]>(url, postData);
   }
 }
