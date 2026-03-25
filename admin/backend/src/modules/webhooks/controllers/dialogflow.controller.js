@@ -19,16 +19,16 @@ const processDialogflowHook = async (request, response) => {
     if (weight > 0 && height > 0) {
       const bmi = (weight / (height * height)).toFixed(2);
       result = `BMI ของคุณคือ ${bmi}\n`;
-      if (bmi <= 18.5) {
-        result = result + `คุณผอมเกินไปนะครับ`;
-      } else if (bmi <= 23) {
-        result = result + `คุณสมส่วนแล้วล่ะครับ`;
-      } else if (bmi <= 25) {
+      if (bmi < 18.5) {
+        result = result + `คุณผอมเกินไปครับ`;
+      } else if (bmi < 23) {
+        result = result + `คุณสมส่วนแล้วครับ`;
+      } else if (bmi < 25) {
         result = result + `คุณเริ่มจะอ้วนแล้วครับ`;
-      } else if (bmi <= 30) {
-        result = result + `คุณอ้วนแล้วล่ะนะครับ`;
+      } else if (bmi < 30) {
+        result = result + `คุณอ้วนแล้วล่ะครับ`;
       } else {
-        result = result + `คุณอ้วนเกินไปแล้วครับ`;
+        result = result + `คุณอ้วนเกินไปครับ`;
       }
     }
     agent.add(result);
