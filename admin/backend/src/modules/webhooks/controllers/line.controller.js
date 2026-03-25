@@ -14,6 +14,47 @@ const defaultInfoMessage = {
   },
 };
 
+/**
+ * eventData.type === 'message' คือ อีเวนต์ข้อความประเภทต่างๆ เช่น text, image, video, audio, file, location, sticker
+ * https://developers.line.biz/en/reference/messaging-api/#message-event
+ * 
+ * eventData.type === 'unsend' คือ อีเวนต์การยกเลิกข้อความบน LINE (อยู่ใน unsend.messageId)
+ * https://developers.line.biz/en/reference/messaging-api/#unsend-event
+ * 
+ * eventData.type === 'follow' คือ อีเวนต์การกดติดตามบน LINE OA (follow.isUnblocked === false คือติดตามใหม่ / follow.isUnblocked === true คือกดอันบล็อก)
+ * https://developers.line.biz/en/reference/messaging-api/#follow-event
+ * 
+ * eventData.type === 'unfollow' คือ อีเวนต์การกดบล็อกบน LINE OA
+ * https://developers.line.biz/en/reference/messaging-api/#unfollow-event
+ * 
+ * eventData.type === 'join' คือ อีเวนต์ที่ LINE OA เข้าร่วมกลุ่มแชท (ไม่จำเป็นถ้าไม่ได้ทำให้ LINE OA เข้าร่วมกลุ่มได้)
+ * https://developers.line.biz/en/reference/messaging-api/#join-event
+ * 
+ * eventData.type === 'leave' คือ อีเวนต์ที่ LINE OA ออกจากกลุ่มแชท (ไม่จำเป็นถ้าไม่ได้ทำให้ LINE OA เข้าร่วมกลุ่มได้)
+ * https://developers.line.biz/en/reference/messaging-api/#leave-event
+ * 
+ * eventData.type === 'memberJoined' คือ อีเวนต์ที่สมาชิกเข้าร่วมกลุ่มแชท (ไม่จำเป็นถ้าไม่ได้ทำให้ LINE OA เข้าร่วมกลุ่มได้)
+ * https://developers.line.biz/en/reference/messaging-api/#member-joined-event
+ * 
+ * eventData.type === 'memberLeft' คือ อีเวนต์ที่สมาชิกเข้าร่วมกลุ่มแชท (ไม่จำเป็นถ้าไม่ได้ทำให้ LINE OA เข้าร่วมกลุ่มได้)
+ * https://developers.line.biz/en/reference/messaging-api/#member-left-event
+ * 
+ * eventData.type === 'postback' คือ อีเวนต์ที่ผู้ใช้งานกดปุ่ม Postback บน LINE OA
+ * https://developers.line.biz/en/reference/messaging-api/#postback-event
+ * 
+ * eventData.type === 'videoPlayComplete' คือ อีเวนต์ที่ผู้ใช้งานดูวิดีโอจนจบบน LINE OA
+ * https://developers.line.biz/en/reference/messaging-api/#video-viewing-complete
+ * 
+ * eventData.type === 'beacon' คือ อีเวนต์ที่ผู้ใช้งานอยู่ในระยะของ LINE Beacon (ถ้าไม่ได้ทำก็ไม่จำเป็น)
+ * https://developers.line.biz/en/reference/messaging-api/#beacon-event
+ * 
+ * eventData.type === 'accountLink' คือ อีเวนต์ที่ผู้ใช้งานผูกบัญชี LINE Login (ยังไม่เคยเห็น Use-case นี้)
+ * https://developers.line.biz/en/reference/messaging-api/#account-link-event
+ * 
+ *  eventData.type === 'membership' คือ อีเวนต์ที่ผู้ใช้งานทำเกี่ยวกับ Membership (ยังไม่เคยเห็น Use-case นี้)
+ * https://developers.line.biz/en/reference/messaging-api/#membership-event
+ */
+
 const processLineWebhook = async (payload) => {
   // เช็ค Payload ว่า Valid หรือไม่
   if (!payload || typeof payload !== 'object' || !Array.isArray(payload.events) || payload.events.length === 0) {

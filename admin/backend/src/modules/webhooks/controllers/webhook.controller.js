@@ -8,7 +8,7 @@ const handleWebhook = async (req, res, source) => {
     const referer = req.get('Referer') || req.get('Origin') || 'unknown';
     const fullUrl = `${req.protocol}://${req.get('Host')}${req.originalUrl}`;
     const payload = req.body;
-    // Build Data
+    // Build Data Log
     const data = {
       event: `${source} Webhook`,
       requestUrl: fullUrl,
@@ -35,6 +35,7 @@ const handleWebhook = async (req, res, source) => {
   } catch (error) {
     console.error('Error Handling Webhook:', error);
     if (source !== 'Dialogflow') {
+      // ส่งผลลัพธ์ไปถ้าไม่ใช่ Dialogflow
       res.status(500).json({ success: false, message: 'Error Handling Webhook!' });
     }
   }
