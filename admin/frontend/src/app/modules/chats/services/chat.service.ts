@@ -4,17 +4,17 @@ import { Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class ChatService {
-  private apiHost = "https://773gbzvx-3000.asse.devtunnels.ms";
+  private apiHost = "https://b15spt4b-3000.asse.devtunnels.ms";
 
   constructor(private http: HttpClient) {}
 
-  getProviderChatList(platform: string): Observable<any[]> {
+  getProviderChatList(platform: string): Observable<any> {
     const url = this.apiHost + `/chats/${platform}/list`;
-    return this.http.get<any[]>(url);
+    return this.http.get(url);
   }
 
-  getProviderChatHistory(platform: string, postData: Object): Observable<any[]> {
+  getProviderChatHistory(platform: string, postData: Object): Observable<any> {
     const url = this.apiHost + `/chats/${platform}/history`;
-    return this.http.post<any[]>(url, postData);
+    return this.http.post(url, postData);
   }
 }

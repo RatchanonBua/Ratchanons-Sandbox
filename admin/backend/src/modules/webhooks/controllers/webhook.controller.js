@@ -1,5 +1,6 @@
 const webhookLogModel = require('@/models/webhook-log.model');
 const lineController = require('@/modules/webhooks/controllers/line.controller');
+const dialogflowController = require('@/modules/webhooks/controllers/dialogflow.controller');
 
 const handleWebhook = async (req, res, source) => {
   try {
@@ -11,6 +12,9 @@ const handleWebhook = async (req, res, source) => {
     switch (source) {
       case "LINE":
         await lineController.processLineWebhook(payload);
+        break;
+      case "Dialogflow":
+        await dialogflowController.processDialogflowHook(payload, req, res);
         break;
       default:
         break;
@@ -26,13 +30,19 @@ const handleWebhook = async (req, res, source) => {
     };
     await webhookLogModel.createWebhookLog(data);
     console.log('Webhook Received Successfully!');
-    res.status(200).json({ success: true, message: 'Webhook Received Successfully!' });
+    // ส่งผลลัพธ์ไปถ้าไม่ใช่ Dialogflow
+    if (source !== 'Dialogflow') {
+      res.status(200).json({ success: true, message: 'Webhook Received Successfully!' });
+    }
   } catch (error) {
     console.error('Error Handling Webhook:', error);
-    res.status(500).json({ success: false, message: 'Error Handling Webhook!' });
+    if (source !== 'Dialogflow') {
+      res.status(500).json({ success: false, message: 'Error Handling Webhook!' });
+    }
   }
 };
 
 module.exports = {
   handleLineWebhook: (req, res) => handleWebhook(req, res, 'LINE'),
+  handleDialogflowHook: (req, res) => handleWebhook(req, res, 'Dialogflow'),
 };

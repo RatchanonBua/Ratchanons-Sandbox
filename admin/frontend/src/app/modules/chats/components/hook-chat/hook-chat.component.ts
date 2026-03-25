@@ -16,7 +16,7 @@ export class HookChatComponent {
   private chatType: ChatType = ChatType.Provider;
   private platform: string = "";
   private chatService = inject(ChatService);
-  public chatList: any[] = [];
+  private chatList: any[] = [];
 
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe(params => {

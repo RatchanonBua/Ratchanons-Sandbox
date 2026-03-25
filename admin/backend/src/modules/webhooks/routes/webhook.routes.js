@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { verifyLineSignature } = require('@/middlewares/verify-signature');
-const { handleLineWebhook } = require('@/modules/webhooks/controllers/webhook.controller');
+const { handleLineWebhook, handleDialogflowHook } = require('@/modules/webhooks/controllers/webhook.controller');
 
 const validateJsonContent = (req, res, next) => {
   if (req.is('application/json')) {
@@ -13,5 +13,6 @@ const validateJsonContent = (req, res, next) => {
 };
 
 router.post('/webhooks/line', validateJsonContent, verifyLineSignature, handleLineWebhook);
+router.post('/webhooks/dialogflow', validateJsonContent, handleDialogflowHook);
 
 module.exports = router;
