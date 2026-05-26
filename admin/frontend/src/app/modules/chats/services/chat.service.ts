@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class ChatService {
-  private apiHost = "https://b15spt4b-3000.asse.devtunnels.ms";
+  private apiHost = "https://fspt9ptm-3000.asse.devtunnels.ms";
 
   constructor(private http: HttpClient) {}
 
